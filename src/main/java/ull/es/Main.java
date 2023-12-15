@@ -3,6 +3,6 @@ package ull.es;
 public class Main {
     public static void main(String[] args) {
         HiperDinosaurWebCrawler crawler = new HiperDinosaurWebCrawler();
-//        crawler();
+        MarketDonnaCrawler crawlerMercadona = new MarketDonnaCrawler();
     }
 }
