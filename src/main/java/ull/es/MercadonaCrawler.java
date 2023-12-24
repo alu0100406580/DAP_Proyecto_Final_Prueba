@@ -9,12 +9,12 @@ import java.util.List;
 import java.io.IOException;
 
 
-public class MarketDonnaCrawler {
+public class MercadonaCrawler {
     String url = "https://tienda.mercadona.es/api/categories/";
 
     List<Product> productList;
-    MarketDonnaCrawler() {
-            this.productList = new ArrayList<Product>();
+    MercadonaCrawler() {
+            this.productList = new ArrayList<>();
             crawlIds();
     }
     public void crawlIds() {
@@ -25,7 +25,6 @@ public class MarketDonnaCrawler {
                 int categoryId = category.get("id").asInt();
                 crawlProducts(categoryId);
             }
-            System.out.println("g");
         } catch (IOException e) {
             e.printStackTrace();
         }

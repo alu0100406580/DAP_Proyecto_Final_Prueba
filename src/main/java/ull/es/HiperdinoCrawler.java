@@ -2,24 +2,21 @@ package ull.es;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HiperDinosaurWebCrawler {
+public class HiperdinoCrawler {
 
     List<Product> productList;
 
 
-    HiperDinosaurWebCrawler() {
+    HiperdinoCrawler() {
         this.productList = new ArrayList<>();
         this.SideMenuScraper();
         System.out.println("d");
