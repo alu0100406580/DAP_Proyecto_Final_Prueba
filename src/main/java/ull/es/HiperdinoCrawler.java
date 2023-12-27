@@ -8,10 +8,16 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HiperdinoCrawler {
+
+    public final int idSupermarket = 1;
+
+    private DatabaseManager myDB;
+
 
     List<Product> productList;
 
@@ -19,7 +25,13 @@ public class HiperdinoCrawler {
     HiperdinoCrawler() {
         this.productList = new ArrayList<>();
         this.SideMenuScraper();
-        System.out.println("d");
+        this.myDB = new DatabaseManager();
+        try {
+            this.myDB.connect();
+            this.myDB.storeProductsInDatabase(productList, idSupermarket);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void SideMenuScraper() {
@@ -51,7 +63,6 @@ public class HiperdinoCrawler {
                         // Obtener el nombre del grupo de productos
                         String grupoProductos = anchor.select("div.sidebar__item.menu--link").text();
 
-//                        System.out.println("URL: " + urlAnchor);
                         System.out.println("Grupo de Productos: " + grupoProductos);
                         crawlProducts(urlAnchor);
                     }
@@ -66,9 +77,7 @@ public class HiperdinoCrawler {
     }
 
     public void crawlProducts(String url) {
-//        String url = "https://www.lidl.es";
-//        String url = "https://www.hiperdino.es/c9505/alimentacion/aceites.html";
-//
+
         try {
             // Conectar a la URL y obtener el contenido HTML
             Document document = Jsoup.connect(url).get();
@@ -80,20 +89,12 @@ public class HiperdinoCrawler {
             for (Element productItem : productItems) {
                 // Obtener la información que buscas dentro de cada <li>
                 Element imageElement = productItem.select("img").first();
-                if(imageElement == null) {
-                    System.out.println("d");
+                if (imageElement == null) {
+                    System.out.println("Imagen Nula");
                 } else {
                     imageURL = imageElement.attr("data-src");
                     // Eliminar la parte "200x200/" del nombre del archivo
-                    imageURL  = imageURL.replace("200x200/", "");
-                }
-
-                Element nameElement = productItem.select("div.description__text.name").first();
-                String productName = "";
-                if(nameElement == null) {
-                    System.out.println("nE");
-                } else {
-                    productName = nameElement.text();
+                    imageURL = imageURL.replace("200x200/", "");
                 }
 
                 // Obtener el elemento li con la clase "product-list-item"
@@ -102,29 +103,39 @@ public class HiperdinoCrawler {
                 // Obtener el valor del atributo data-sort
                 int idProduct = Integer.parseInt(productListItem.attr("data-id"));
 
+                Element nameElement = productItem.select("div.description__text.name").first();
+                String productName = "";
+                if (nameElement == null) {
+                    System.out.println("No productName: " + idProduct);
+                } else {
+                    productName = nameElement.text();
+                }
+
                 // Get the value of the "data-sort" attribute
                 String dataSortAttribute = productListItem.attr("data-sort");
 
                 // Parse the "data-sort" attribute value with Jackson
-                String productPrice = "";
+                Double productPrice = null;
                 try {
                     ObjectMapper objectMapper = new ObjectMapper();
                     JsonNode jsonNode = objectMapper.readTree(dataSortAttribute);
-                    productPrice = jsonNode.path("price_desc").path("value").asText();
+                    productPrice = jsonNode.path("price_desc").path("value").asDouble();
 
                     // Use the extracted value (1.13 in this example)
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                if(productPrice.isEmpty()) {
-                    System.out.println("d");
+                if (productPrice == null) {
+                    System.out.println("No productPrice: " + productName + " " + idProduct);
                 }
 
                 // Crear un objeto Product y agregarlo a la lista
 //                Product product = new Product(productName, productPrice, imageURL);
-                Product product = new Product(idProduct, productName, productPrice, imageURL, url);
-                this.productList.add(product);
+                if(! (productName.isEmpty() || productPrice == null)) {
+                    Product product = new Product(idProduct, productName, productPrice, imageURL, url);
+                    this.productList.add(product);
+                }
             }
 
             // Imprimir la lista de productos (puedes realizar otras operaciones con la lista según tus necesidades)

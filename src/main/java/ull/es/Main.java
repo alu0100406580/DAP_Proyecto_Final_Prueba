@@ -15,9 +15,10 @@ public class Main {
         long tuTrebolTime = System.currentTimeMillis() - startTime;
 
         System.out.println("Tiempo de ejecución de TuTrebolCrawler: " + tuTrebolTime / (60 * 1000) + " minutos");
-        System.out.println("Tiempo de ejecución de MercadonaCrawler: " + mercadonaTime / (60 * 1000) + " minutos");
+        System.out.println("Tiempo de ejecución de MercadonaCrawler: " + mercadonaTime / (1000) + " segundos");
         System.out.println("Tiempo de ejecución de HiperdinoCrawler: " + hiperdinoTime / (60 * 1000) + " minutos");
         long totalTime = hiperdinoTime + mercadonaTime + tuTrebolTime;
         System.out.println("Tiempo total de ejecución: " + totalTime / (60 * 1000) + " minutos");
+
     }
 }

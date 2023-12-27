@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
@@ -12,12 +13,23 @@ import java.io.IOException;
 public class MercadonaCrawler {
     String url = "https://tienda.mercadona.es/api/categories/";
 
+    public final int idSupermarket = 2;
+
+    private DatabaseManager myDB;
+
     List<Product> productList;
     MercadonaCrawler() {
-            this.productList = new ArrayList<>();
-            crawlIds();
+        this.productList = new ArrayList<>();
+        crawlEntireApi();
+        myDB = new DatabaseManager();
+        try {
+            this.myDB.connect();
+            this.myDB.storeProductsInDatabase(productList, idSupermarket);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public void crawlIds() {
+    public void crawlEntireApi() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(new URL(this.url));
@@ -37,7 +49,7 @@ public class MercadonaCrawler {
                 for(JsonNode product : category.get("products")) {
                     int productId = product.get("id").asInt();
                     String nameProduct = product.get("display_name").asText();
-                    String price = product.get("price_instructions").get("unit_price").asText();
+                    Double price = product.get("price_instructions").get("unit_price").asDouble();
                     String urlImage = product.get("thumbnail").asText();
                     String urlProduct = "";
                     if(product.has("share_url")) {
