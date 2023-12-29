@@ -22,6 +22,9 @@ public class MercadonaCrawler {
         this.productList = new ArrayList<>();
         crawlEntireApi();
         myDB = new DatabaseManager();
+        // Arreglo de los productos si los hubiese con fotos y urls validas en la api
+        //FixDatabase fix = new FixDatabase();
+        //fix.mercadonaFixUrl(this.productList);
         try {
             this.myDB.connect();
             this.myDB.storeProductsInDatabase(productList, idSupermarket);

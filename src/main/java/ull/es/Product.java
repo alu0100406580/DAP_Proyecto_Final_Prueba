@@ -52,4 +52,12 @@ public class Product {
     public String getUrlProduct() {
         return urlProduct;
     }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setUrlProduct(String urlProduct) {
+        this.urlProduct = urlProduct;
+    }
 }
