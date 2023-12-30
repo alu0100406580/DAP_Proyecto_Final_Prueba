@@ -8,7 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.time.LocalTime;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,7 +16,11 @@ import java.util.regex.Pattern;
 
 public class TuTrebolCrawler {
 
+    public final int idSupermarket = 3;
+
     private WebDriver driver;
+    private DatabaseManager myDB;
+
 
     private List<Product> productList;
     String url = "https://www.tutrebol.es";
@@ -25,6 +29,17 @@ public class TuTrebolCrawler {
     public TuTrebolCrawler() {
         this.productList = new ArrayList<Product>();
         this.driver = null;
+        crawlingEntireWeb();
+        this.myDB = new DatabaseManager();
+        try {
+            this.myDB.connect();
+            this.myDB.storeProductsInDatabase(productList, idSupermarket);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void crawlingEntireWeb() {
 
         try {
             System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
@@ -40,9 +55,6 @@ public class TuTrebolCrawler {
 
             // Encuentra el elemento de la megamenu
             WebElement megaMenu =  this.driver.findElement(By.className("megamenu"));
-
-            // Encuentra todos los elementos 'a' dentro del megamenu
-//            List<WebElement> categoryLinks = megaMenu.findElements(By.tagName("a"));
 
             // Encuentra todos los enlaces directos dentro del megamenu
             List<WebElement> categoryLinks = megaMenu.findElements(By.cssSelector("li.aligned-left.parent.dropdown > a"));
@@ -78,6 +90,7 @@ public class TuTrebolCrawler {
             }
             // System.err.println("Ha habido un error");
         }
+
     }
 
     private void captureProducts() {
@@ -144,8 +157,11 @@ public class TuTrebolCrawler {
             int productId = Integer.parseInt(article.select("meta[itemprop=productID]").attr("content"));
 
             // Extrae el precio del producto
-            String price = article.select("meta[itemprop=price]").attr("content");
-
+            String priceString = article.select("meta[itemprop=price]").attr("content");
+            Double price = null;
+            if(!priceString.isEmpty()) {
+                price = Double.parseDouble(priceString);
+            }
             // Extrae la URL de la imagen
             String imageUrl = article.select("img.replace-2x.img-responsive.pts-image").attr("src");
 
