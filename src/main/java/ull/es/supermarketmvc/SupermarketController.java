@@ -10,7 +10,7 @@ import ull.es.supermarketmvc.repository.ProductRepository;
 import java.util.List;
 
 @Controller
-public class ProductController {
+public class SupermarketController {
 
 //    @Autowired
 //    Environment env;
