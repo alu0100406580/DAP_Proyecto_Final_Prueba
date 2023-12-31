@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+    <style>
+        /* Estilo para resaltar filas clicables */
+        .clickable-row:hover {
+            cursor: pointer;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<h2>Lista de Productos</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="producto : ${productos}" class="clickable-row" onclick="seleccionarProducto(this, ${producto.id})">
+        <td th:text="${producto.id}"></td>
+        <td th:text="${producto.name}"></td>
+        <td th:text="${producto.price}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Script para gestionar la selección de productos -->
+<script>
+    // Estructura de datos para almacenar productos seleccionados
+    var productosSeleccionados = [];
+
+    // Función para manejar la selección de productos
+    function seleccionarProducto(row, productId) {
+        // Cambiar el color de fondo para indicar selección
+        row.classList.toggle('selected');
+
+        // Verificar si el producto ya está en la lista
+        var index = productosSeleccionados.indexOf(productId);
+
+        // Si está en la lista, quitarlo; de lo contrario, agregarlo
+        if (index === -1) {
+            productosSeleccionados.push(productId);
+        } else {
+            productosSeleccionados.splice(index, 1);
+        }
+
+        // Imprimir en la consola la lista de productos seleccionados (para fines de demostración)
+        console.log('Productos seleccionados:', productosSeleccionados);
+    }
+</script>
+</body>
+</html>
