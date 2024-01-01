@@ -34,10 +34,27 @@ public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long
             @Param("specificDate") LocalDate specificDate
     );
 
-    @Query("SELECT MIN(DATE(ph.readAt)) FROM PriceHistory ph")
+//    @Query("SELECT MIN(DATE(ph.readAt)) FROM PriceHistory ph")
+//    LocalDate findMinDate();
+
+    @Query("SELECT MIN(ph.readAt) FROM PriceHistory ph")
     LocalDate findMinDate();
 
-    @Query("SELECT MAX(DATE(ph.readAt)) FROM PriceHistory ph")
+
+//    @Query("SELECT MAX(DATE(ph.readAt)) FROM PriceHistory ph")
+//    LocalDate findMaxDate();
+
+    @Query("SELECT MAX(ph.readAt) FROM PriceHistory ph")
     LocalDate findMaxDate();
+
+
+//    @Query("SELECT MAX(DATE(ph.readAt)) FROM PriceHistory ph " +
+//            "WHERE ph.product.id IN :productIds")
+//    LocalDate findMaxDateByProductIds(@Param("productIds") List<Long> productIds);
+
+    @Query("SELECT MAX(ph.readAt) FROM PriceHistory ph " +
+            "WHERE ph.product.id IN :productIds")
+    LocalDate findMaxDateByProductIds(@Param("productIds") List<Long> productIds);
+
 
 }

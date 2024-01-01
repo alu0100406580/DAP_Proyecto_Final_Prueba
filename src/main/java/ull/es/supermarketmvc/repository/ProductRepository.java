@@ -10,5 +10,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
         // Puedes agregar consultas personalizadas aquí si es necesario
         @Query("SELECT p FROM Product p WHERE p.idSupermarket = :idSupermarket")
-        List<Product> findBySupermarketId(@Param("idSupermarket") int idSupermarket);
+        List<Product> findProductBySupermarketId(@Param("idSupermarket") int idSupermarket);
+
+        @Query("SELECT p.id FROM Product p WHERE p.idSupermarket = :idSupermarket")
+        List<Long> findIdBySupermarket(@Param("idSupermarket") int idSupermarket);
 }
