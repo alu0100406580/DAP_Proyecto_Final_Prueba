@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de Inicio</title>
+    <!-- Agrega tus estilos CSS si es necesario -->
+</head>
+<body>
+
+<div style="text-align: center; margin-top: 50px;">
+    <div>
+        <img src="https://cdn.hiperdino.es/amasty/blog/cache/I/c/550/370/Icono-App-HiperDino.jpg" alt="Imagen 1" style="width: 300px; height: 200px;">
+        <p>Última actualización: [[${hiperdinoDate}]]</p>
+        <button type="button">Actualizar BD</button>
+        <button type="button">Ver Estadísticas</button>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <img src="https://my-tenerife.com/images/customers/0000140_mercadona_tenerife/004_arona/001_los_cristianos/0000140_01_mercadona_calle_ramona_martin_artista_los_cristianos_tenerife/001_logo/0000140-1-mercadona-logo-myt-my-tenerife.svg" alt="Mercadona" style="width: 300px; height: 200px;">
+        <p>Última actualización: [[${mercadonaDate}]]</p>
+        <button type="button">Actualizar BD</button>
+        <button type="button">Ver Estadísticas</button>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <img src="https://my-tenerife.com/images/customers/0000146_tu_trebol_tenerife/001_adeje/0000146_01_tu_trebol_tenerife/001_logo/0000146-tu-trebol-logo-myt-my-tenerife.svg" alt="Tu Trebol" style="width: 300px; height: 200px;">
+        <p>Última actualización: [[${tutrebolDate}]]</p>
+        <button type="button">Actualizar BD</button>
+        <button type="button">Ver Estadísticas</button>
+    </div>
+</div>
+
+</body>
+</html>
