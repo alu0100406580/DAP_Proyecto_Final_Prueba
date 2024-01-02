@@ -36,12 +36,17 @@ public class MercadonaCrawler {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(new URL(this.url));
-            for (JsonNode category : jsonNode.get("results")) {
-                int categoryId = category.get("id").asInt();
-                crawlProducts(categoryId);
+            for(JsonNode category : jsonNode.get("results")) {
+                for (JsonNode subcategory : category.get("categories")) {
+                    Thread.sleep(1000);
+                    int categoryId = subcategory.get("id").asInt();
+                    crawlProducts(categoryId);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
     public void crawlProducts(int idCategory) {
