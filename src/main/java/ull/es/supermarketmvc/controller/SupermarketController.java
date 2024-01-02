@@ -15,18 +15,6 @@ import java.util.List;
 @Controller
 public class SupermarketController {
 
-//    @Autowired
-//    Environment env;
-//
-//    @Bean
-//    public DataSource dataSource() {
-//        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(env.getProperty("driverClassName"));
-//        dataSource.setUrl(env.getProperty("url"));
-//        dataSource.setUsername(env.getProperty("user"));
-//        dataSource.setPassword(env.getProperty("password"));
-//        return dataSource;
-//    }
 
     @Autowired
     private ProductRepository productRepository;
@@ -51,17 +39,4 @@ public class SupermarketController {
 
         return "home";
     }
-
-    @GetMapping("/productos")
-    public String listaDeProductos(Model model) {
-        // Obtener la lista de productos desde el repositorio
-//        Iterable<Product> productos = productRepository.findAll();
-        List<Product> productos = productRepository.findProductBySupermarketId(2);
-        model.addAttribute("productos", productos);
-
-        // Devolver el nombre de la vista (plantilla Thymeleaf)
-        return "listaProductos";
-    }
-
-    // Otros métodos del controlador para crear, actualizar, eliminar, etc.
 }
