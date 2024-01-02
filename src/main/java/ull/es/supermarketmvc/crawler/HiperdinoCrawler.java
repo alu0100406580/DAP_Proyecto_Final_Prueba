@@ -88,7 +88,7 @@ public class HiperdinoCrawler {
             // Iterar sobre cada elemento <li>
             for (Element productItem : productItems) {
                 // Obtener la información que buscas dentro de cada <li>
-                Element imageElement = productItem.select("static/img").first();
+                Element imageElement = productItem.select("div.product__image img").first();
                 if (imageElement == null) {
                     System.out.println("Imagen Nula");
                 } else {
