@@ -6,6 +6,11 @@ body{
 .shell{
   padding:80px 0;
 }
+
+.selected > .wsk-cp-product > .wsk-cp-text {
+    background-color: #ffcccb !important;
+}
+
 .wsk-cp-product{
   background:#fff;
   padding:15px;
@@ -196,10 +201,12 @@ a.buy-btn{
   background: #FF9800;
   color: #fff;
 }
-
 .selected {
     background-color: #ffcccb;
 }
+/*.selected > .wsp-cp-product > .wsp-cp-text {
+    background-color: #ffcccb !important;
+}*/
 /*.fixed-size-image {
     width: 600px;
     height: 900px;
