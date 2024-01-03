@@ -37,7 +37,7 @@
                         </div>
                         <div class="wsk-cp-text">
                             <div class="category" th:if="${producto.urlProduct ne ''}">
-                                <a th:href="'https://tienda.mercadona.es/api/products/' + ${producto.idBySupermarket}" target="_blank"><span>Enlace</span></a>
+                                <a th:href="${producto.urlProduct}" target="_blank"><span>Enlace</span></a>
                             </div>
                             <div class="title-product">
                                 <h3 th:text="${producto.name}"></h3>
@@ -94,7 +94,7 @@
             $("#updateButton").hide();
 
             // Realiza la solicitud AJAX
-            $.get("/mercadona/update")
+            $.get([[@{${urlUpdate}}]])
                 .done(function (response) {
                 // Maneja la respuesta del servidor
                 console.log(response);
