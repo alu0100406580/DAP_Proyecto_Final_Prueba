@@ -63,7 +63,7 @@ body{
   -khtml-transform: translate(-50%,-50%);
 
 }
-.wsk-cp-text .category > span{
+.wsk-cp-text .category > a > span{
   padding: 12px 30px;
   border: 1px solid #313131;
   background:#212121;
@@ -73,7 +73,7 @@ body{
   transition: all 0.05s ease-in-out;
 
 }
-.wsk-cp-product:hover .wsk-cp-text .category > span{
+.wsk-cp-product:hover .wsk-cp-text .category > a > span{
   border-color:#ddd;
   box-shadow: none;
   padding: 11px 28px;
@@ -183,7 +183,7 @@ a.buy-btn:hover , a.buy-btn:active, a.buy-btn:focus{
 .wsk-cp-product .wsk-cp-img img{
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
-  .wsk-cp-product .wsk-cp-text .category > span{
+  .wsk-cp-product .wsk-cp-text .category > a > span{
   border-color:#ddd;
   box-shadow: none;
   padding: 11px 28px;

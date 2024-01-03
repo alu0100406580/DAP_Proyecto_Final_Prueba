@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/static/productList.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+</head>
+<body>
+<div class="container text-center">
+    <h1>Lista de Productos de [[${supermarketName}]]</h1>
+<!--    <span>Create With <i class="zmdi zmdi-favorite red"></i>  By: <strong>Deni Kurniawan</strong> From: <i><a href="http://blog.wingerdstok.com" class="wsk-btn">Wingerdstok</a></i></span>-->
+    <p>última vez actualizado el: [[${dateDatabaseUpdate}]]</p>
+    <div id="loadingIndicator" style="display: none;">
+        <img th:src="@{/static/img/spinning.gif}" alt="Indicador de trabajo">
+    </div>
+    <div id="error-message" class="error-message" style="display: none;"></div>
+<!--    <a th:href="@{/mercadona/update}" class="wsk-btn">Actualizar BD</a>-->
+    <a href="#" id="updateButton" class="wsk-btn">Actualizar BD</a>
+
+</div>
+
+<div class="shell">
+    <div class="container">
+        <div class="row">
+            <th:block th:each="producto, iterStat : ${products}">
+                <div class="col-md-3">
+                    <div class="wsk-cp-product">
+                        <div class="wsk-cp-img">
+                            <!-- Verifica si producto.imageUrl está vacío -->
+                            <img th:if="${producto.urlProduct ne ''}" th:src="${producto.imageUrl}" alt="Product" class="fixed-size-image" />
+                            <!-- Si producto.imageUrl está vacío, carga la imagen predeterminada -->
+                            <img th:unless="${producto.urlProduct ne ''}" th:src="@{/static/img/mercadona.png}" alt="Default Product" class="fixed-size-image" />
+                        </div>
+                        <div class="wsk-cp-text">
+                            <div class="category" th:if="${producto.urlProduct ne ''}">
+                                <a th:href="'https://tienda.mercadona.es/api/products/' + ${producto.idBySupermarket}" target="_blank"><span>Enlace</span></a>
+                            </div>
+                            <div class="title-product">
+                                <h3 th:text="${producto.name}"></h3>
+                            </div>
+                            <div class="card-footer">
+                                <div class="wcf-left"><span class="price">[[${producto.price}]]€</span></div>
+                                <div class="wcf-right"><a href="#" class="buy-btn"><i class="zmdi zmdi-shopping-basket"></i></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cierra la fila cada vez que hay 4 productos o es el último -->
+                <div th:if="${iterStat.index % 4 == 3 or iterStat.last}" class="clearfix"></div>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Script para gestionar la selección de productos -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        $("#updateButton").click(function () {
+            // Muestra el indicador de trabajo
+            $("#loadingIndicator").show();
+            $("#updateButton").hide();
+
+            // Realiza la solicitud AJAX
+            $.get("/mercadona/update")
+                .done(function (response) {
+                // Maneja la respuesta del servidor
+                console.log(response);
+
+                // Oculta el indicador de trabajo después de completar la actualización
+                $("#loadingIndicator").hide();
+                $("#updateButton").show();
+
+                // Actualiza el contenido de la página según tu lógica
+                location.reload(true);
+            })
+            .fail(function (error) {
+                    // Maneja errores y oculta el indicador de trabajo
+                    console.error(error);
+                    $("#loadingIndicator").hide();
+                    $("#updateButton").show();
+                    // Puedes agregar un mensaje de error o realizar otras acciones según tus necesidades
+                    $("#error-message").text("Error al actualizar la base de datos. Inténtalo de nuevo.").show();
+            });
+        });
+    });
+</script>
+</body>
+</html>
