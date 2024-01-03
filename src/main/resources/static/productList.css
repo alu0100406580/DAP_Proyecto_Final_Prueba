@@ -197,6 +197,9 @@ a.buy-btn{
   color: #fff;
 }
 
+.selected {
+    background-color: #ffcccb;
+}
 /*.fixed-size-image {
     width: 600px;
     height: 900px;

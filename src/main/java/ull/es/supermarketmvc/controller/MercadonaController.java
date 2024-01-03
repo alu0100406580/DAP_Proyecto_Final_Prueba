@@ -12,6 +12,7 @@ import ull.es.supermarketmvc.repository.ProductRepository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ public class MercadonaController {
 //        Iterable<Product> productos = productRepository.findAll();
         List<Product> products = productRepository.findProductBySupermarketId(2);
         List<Long> productsIds = products.stream().map(Product::getId).collect(Collectors.toList());
+
         LocalDate dateDatabaseUpdate = priceHistoryRepository.findMaxDateByProductIds(productsIds);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String formattedDate = dateDatabaseUpdate.format(formatter);
@@ -38,21 +40,11 @@ public class MercadonaController {
         model.addAttribute("products", products);
         model.addAttribute("supermarketName", supermarketName);
         model.addAttribute("dateDatabaseUpdate", formattedDate);
+        model.addAttribute("selectedProducts", new ArrayList<Long>());
 
         return "productList";
     }
 
-//    @GetMapping("/mercadona/update")  // Cambia "ejecutar-crawler" por la ruta que desees
-//    public String executeCrawler() {
-//        System.out.println("Inicio actualizacion BD");
-//        long startTime = System.currentTimeMillis();
-//        MercadonaCrawler crawlerMercadona = new MercadonaCrawler();
-//        long mercadonaTime = System.currentTimeMillis() - startTime;
-//        System.out.println("Tiempo de ejecución de MercadonaCrawler: " + mercadonaTime / 1000 + " segundos");
-//
-//        // Puedes retornar una vista o redirigir a otra URL según tus necesidades
-//        return "productList";  // Cambia "vista-resultados" por el nombre de tu vista
-//    }
     @GetMapping("/mercadona/update")
     public ResponseEntity<String> executeCrawler() {
         System.out.println("Inicio actualizacion BD");
@@ -61,6 +53,6 @@ public class MercadonaController {
         long mercadonaTime = System.currentTimeMillis() - startTime;
         System.out.println("Tiempo de ejecución de MercadonaCrawler: " + mercadonaTime / 1000 + " segundos");
 
-        return ResponseEntity.ok("Actualización exitosa"); // Cambia esto según la lógica de tu aplicación
+        return ResponseEntity.ok("Actualización exitosa");
     }
 }

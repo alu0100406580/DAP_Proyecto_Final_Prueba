@@ -11,13 +11,13 @@
 <body>
 <div class="container text-center">
     <h1>Lista de Productos de [[${supermarketName}]]</h1>
-<!--    <span>Create With <i class="zmdi zmdi-favorite red"></i>  By: <strong>Deni Kurniawan</strong> From: <i><a href="http://blog.wingerdstok.com" class="wsk-btn">Wingerdstok</a></i></span>-->
+    <!--    <span>Create With <i class="zmdi zmdi-favorite red"></i>  By: <strong>Deni Kurniawan</strong> From: <i><a href="http://blog.wingerdstok.com" class="wsk-btn">Wingerdstok</a></i></span>-->
     <p>última vez actualizado el: [[${dateDatabaseUpdate}]]</p>
     <div id="loadingIndicator" style="display: none;">
         <img th:src="@{/static/img/spinning.gif}" alt="Indicador de trabajo">
     </div>
     <div id="error-message" class="error-message" style="display: none;"></div>
-<!--    <a th:href="@{/mercadona/update}" class="wsk-btn">Actualizar BD</a>-->
+    <!--    <a th:href="@{/mercadona/update}" class="wsk-btn">Actualizar BD</a>-->
     <a href="#" id="updateButton" class="wsk-btn">Actualizar BD</a>
 
 </div>
@@ -26,7 +26,8 @@
     <div class="container">
         <div class="row">
             <th:block th:each="producto, iterStat : ${products}">
-                <div class="col-md-3">
+                <div class="col-md-3" th:classappend="${#lists.contains(selectedProducts, producto.id) ? 'selected' : ''}"
+                     th:onclick="|seleccionarProducto(this, ${producto.id})|" style="cursor: pointer;">
                     <div class="wsk-cp-product">
                         <div class="wsk-cp-img">
                             <!-- Verifica si producto.imageUrl está vacío -->
@@ -62,6 +63,29 @@
 
 <!-- Script para gestionar la selección de productos -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script th:inline="javascript">
+    var selectedProducts = [];
+
+    function seleccionarProducto(row, productId) {
+        // Cambiar el color de fondo para indicar selección
+        row.classList.toggle('selected');
+        // Después de aplicar la clase 'selected'
+        row.offsetHeight;
+
+        // Verificar si el producto ya está en la lista
+        var index = selectedProducts.indexOf(productId);
+
+        // Si está en la lista, quitarlo; de lo contrario, agregarlo
+        if (index === -1) {
+            selectedProducts.push(productId);
+        } else {
+            selectedProducts.splice(index, 1);
+        }
+
+        // Imprimir en la consola la lista de productos seleccionados (para fines de demostración)
+        console.log('Productos seleccionados:', selectedProducts);
+    }
+</script>
 <script th:inline="javascript">
     $(document).ready(function () {
         $("#updateButton").click(function () {
