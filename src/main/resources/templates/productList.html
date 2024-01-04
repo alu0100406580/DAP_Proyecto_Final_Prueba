@@ -18,8 +18,8 @@
     </div>
     <div id="error-message" class="error-message" style="display: none;"></div>
     <!--    <a th:href="@{/mercadona/update}" class="wsk-btn">Actualizar BD</a>-->
-    <a href="#" id="updateButton" class="wsk-btn">Actualizar BD</a>
-
+    <button id="updateButton" class="wsk-btn">Actualizar BD</button>
+    <button id="showProductsButton" class="wsk-btn" onclick="sendProductList()">Mostrar Productos Seleccionados</button>
 </div>
 
 <div class="shell">
@@ -58,9 +58,6 @@
 </div>
 
 
-
-
-
 <!-- Script para gestionar la selección de productos -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script th:inline="javascript">
@@ -84,6 +81,28 @@
 
         // Imprimir en la consola la lista de productos seleccionados (para fines de demostración)
         console.log('Productos seleccionados:', selectedProducts);
+    }
+
+    function sendProductList() {
+        try {
+            // Enviar la lista de productos seleccionados a través de una petición AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/saveProductListController", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            // Configurar una función de devolución de llamada para manejar la respuesta
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log('La solicitud se completó correctamente.');
+                    // Realizar la redirección después de la respuesta exitosa
+                    window.location.href = "/dashboard/products";
+                } else {
+                    console.error('Error en la solicitud: ' + xhr.statusText);
+                }
+            };
+            xhr.send(JSON.stringify(selectedProducts));
+        } catch (error) {
+            console.error('Error al enviar la lista de productos:', error);
+        }
     }
 </script>
 <script th:inline="javascript">
