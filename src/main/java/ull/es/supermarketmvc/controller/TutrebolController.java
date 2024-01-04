@@ -24,6 +24,8 @@ public class TutrebolController {
 
     private String supermarketName = "Tu Trébol";
 
+    private int supermarketId = 3;
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -48,6 +50,7 @@ public class TutrebolController {
 
         model.addAttribute("urlUpdate", urlUpdate);
         model.addAttribute("products", products);
+        model.addAttribute("supermarketId", supermarketId);
         model.addAttribute("supermarketName", supermarketName);
         model.addAttribute("dateDatabaseUpdate", formattedDate);
         model.addAttribute("selectedProducts", new ArrayList<Long>());

@@ -24,6 +24,8 @@ public class MercadonaController {
 
     private String supermarketName = "Mercadona";
 
+    private int supermarketId = 2;
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -48,6 +50,7 @@ public class MercadonaController {
 
         model.addAttribute("urlUpdate", urlUpdate);
         model.addAttribute("products", products);
+        model.addAttribute("supermarketId", supermarketId);
         model.addAttribute("supermarketName", supermarketName);
         model.addAttribute("dateDatabaseUpdate", formattedDate);
         model.addAttribute("selectedProducts", new ArrayList<Long>());

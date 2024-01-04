@@ -23,6 +23,8 @@ public class HiperdinoController {
 
     private String supermarketName = "Hiperdino";
 
+    private int supermarketId = 1;
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -47,6 +49,7 @@ public class HiperdinoController {
 
         model.addAttribute("urlUpdate", urlUpdate);
         model.addAttribute("products", products);
+        model.addAttribute("supermarketId", supermarketId);
         model.addAttribute("supermarketName", supermarketName);
         model.addAttribute("dateDatabaseUpdate", formattedDate);
         model.addAttribute("selectedProducts", new ArrayList<Long>());
