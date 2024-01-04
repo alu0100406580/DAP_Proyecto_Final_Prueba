@@ -136,7 +136,7 @@ body{
   font-size:18px;
   font-weight:bold;
 }
-
+/*
 a.buy-btn{
   display:block;
   color:#212121;
@@ -149,6 +149,32 @@ a.buy-btn{
   border:1px solid #212121;
   transition: all 0.2s ease-in-out;
 }
+*/
+
+input.quantity{
+  display:block;
+  color:#212121;
+  text-align:center;
+  font-size: 18px;
+  width:35px;
+  height:35px;
+  line-height:35px;
+  border-radius:50%;
+  border:1px solid #212121;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Ocultar las flechas en el campo de entrada de tipo número */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
 a.buy-btn:hover , a.buy-btn:active, a.buy-btn:focus{
   border-color: #FF9800;
   background: #FF9800;
