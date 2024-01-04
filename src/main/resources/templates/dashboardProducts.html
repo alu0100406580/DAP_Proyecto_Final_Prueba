@@ -11,9 +11,9 @@
 <body>
 <h1>Productos Seleccionados</h1>
 <ul>
-    <li th:each="productId : ${selectedProducts}">
+    <li th:each="product : ${selectedProducts}">
         <!-- Aquí puedes mostrar detalles de cada producto utilizando productId -->
-        <span th:text="${productId}"></span>
+        <span th:text="${product.idProduct} + ' ' + ${product.idSupermarket}"></span>
     </li>
 </ul>
 </body>

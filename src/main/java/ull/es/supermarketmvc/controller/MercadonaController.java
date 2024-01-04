@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ull.es.supermarketmvc.crawler.MercadonaCrawler;
 import ull.es.supermarketmvc.model.Product;
+import ull.es.supermarketmvc.model.SelectedProduct;
 import ull.es.supermarketmvc.repository.PriceHistoryRepository;
 import ull.es.supermarketmvc.repository.ProductRepository;
 
@@ -53,7 +54,7 @@ public class MercadonaController {
         model.addAttribute("supermarketId", supermarketId);
         model.addAttribute("supermarketName", supermarketName);
         model.addAttribute("dateDatabaseUpdate", formattedDate);
-        model.addAttribute("selectedProducts", new ArrayList<Long>());
+        model.addAttribute("selectedProducts", new ArrayList<SelectedProduct>());
 
         return "productList";
     }

@@ -3,9 +3,15 @@ package ull.es.supermarketmvc.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Products")
 public class Product {
+
+    @OneToMany(mappedBy = "product")
+    private List<SelectedProduct> selectedProducts;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
