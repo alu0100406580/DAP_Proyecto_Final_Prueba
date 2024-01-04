@@ -1,11 +1,12 @@
 package ull.es.supermarketmvc.crawler;
 
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.List;
 
 public class DatabaseManager {
 
-    private final String databasePath = "database/supermarketProducts.db";
+    private final String databasePath = "data/supermarketProducts.db";
 
     public DatabaseManager() {
     }
@@ -13,8 +14,8 @@ public class DatabaseManager {
     public Connection connect() throws SQLException {
         try {
             // Obtén la ruta absoluta al archivo de la base de datos
-            String absolutePath = getClass().getClassLoader().getResource(databasePath).getFile();
-
+//            String absolutePath = getClass().getClassLoader().getResource(databasePath).getFile();
+            String absolutePath = Paths.get(System.getProperty("user.dir"), databasePath).toString();
 
             // Reemplaza %20 con espacios si es necesario (problema común en rutas de archivos en URLs)
             absolutePath = absolutePath.replaceAll("%20", " ");

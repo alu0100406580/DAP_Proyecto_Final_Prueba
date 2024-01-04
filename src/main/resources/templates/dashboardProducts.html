@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" th:href="@{/static/productList.css}" />
+</head>
+<body>
+<h1>Productos Seleccionados</h1>
+<ul>
+    <li th:each="productId : ${selectedProducts}">
+        <!-- Aquí puedes mostrar detalles de cada producto utilizando productId -->
+        <span th:text="${productId}"></span>
+    </li>
+</ul>
+</body>
+</html>

@@ -6,6 +6,14 @@ body{
 .shell{
   padding:80px 0;
 }
+/*
+.selected > .wsk-cp-product > .wsk-cp-text {
+    background-color: #ffcccb !important;
+}
+*/
+.selected {
+    background-color: #ffcccb;
+}
 .wsk-cp-product{
   background:#fff;
   padding:15px;
@@ -63,7 +71,7 @@ body{
   -khtml-transform: translate(-50%,-50%);
 
 }
-.wsk-cp-text .category > span{
+.wsk-cp-text .category > a > span{
   padding: 12px 30px;
   border: 1px solid #313131;
   background:#212121;
@@ -73,7 +81,7 @@ body{
   transition: all 0.05s ease-in-out;
 
 }
-.wsk-cp-product:hover .wsk-cp-text .category > span{
+.wsk-cp-product:hover .wsk-cp-text .category > a > span{
   border-color:#ddd;
   box-shadow: none;
   padding: 11px 28px;
@@ -132,7 +140,7 @@ body{
   font-size:18px;
   font-weight:bold;
 }
-
+/*
 a.buy-btn{
   display:block;
   color:#212121;
@@ -145,6 +153,32 @@ a.buy-btn{
   border:1px solid #212121;
   transition: all 0.2s ease-in-out;
 }
+*/
+
+input.quantity{
+  display:block;
+  color:#212121;
+  text-align:center;
+  font-size: 18px;
+  width:35px;
+  height:35px;
+  line-height:35px;
+  border-radius:50%;
+  border:1px solid #212121;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Ocultar las flechas en el campo de entrada de tipo número */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
 a.buy-btn:hover , a.buy-btn:active, a.buy-btn:focus{
   border-color: #FF9800;
   background: #FF9800;
@@ -183,7 +217,7 @@ a.buy-btn:hover , a.buy-btn:active, a.buy-btn:focus{
 .wsk-cp-product .wsk-cp-img img{
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
-  .wsk-cp-product .wsk-cp-text .category > span{
+  .wsk-cp-product .wsk-cp-text .category > a > span{
   border-color:#ddd;
   box-shadow: none;
   padding: 11px 28px;
@@ -197,6 +231,9 @@ a.buy-btn{
   color: #fff;
 }
 
+/*.selected > .wsp-cp-product > .wsp-cp-text {
+    background-color: #ffcccb !important;
+}*/
 /*.fixed-size-image {
     width: 600px;
     height: 900px;
