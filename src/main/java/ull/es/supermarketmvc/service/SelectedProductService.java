@@ -23,15 +23,10 @@ public class SelectedProductService {
     @Autowired
     private ProductRepository productRepository;
 
-
-    public void saveSelectedProduct(SelectedProduct selectedProduct) {
-        selectedProductRepository.save(selectedProduct);
-    }
-
     public void saveSelectedProducts(List<SelectedProduct> selectedProducts) {
         selectedProductRepository.deleteBySupermarketId(selectedProducts.get(0).getIdSupermarket());
         for(SelectedProduct selectedProduct : selectedProducts) {
-            saveSelectedProduct(selectedProduct);
+            selectedProductRepository.save(selectedProduct);
         }
     }
 

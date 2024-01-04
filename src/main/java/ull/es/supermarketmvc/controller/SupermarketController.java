@@ -14,6 +14,7 @@ import ull.es.supermarketmvc.model.SelectedProduct;
 import ull.es.supermarketmvc.repository.PriceHistoryRepository;
 import ull.es.supermarketmvc.repository.ProductRepository;
 import ull.es.supermarketmvc.repository.SelectedProductRepository;
+import ull.es.supermarketmvc.service.SelectedProductService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,7 +30,7 @@ public class SupermarketController {
     private PriceHistoryRepository priceHistoryRepository;
 
     @Autowired
-    private SelectedProductRepository selectedProductRepository;
+    private SelectedProductService selectedProductService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -53,6 +54,7 @@ public class SupermarketController {
     public ResponseEntity<String> saveProductListController(@RequestBody List<SelectedProduct> selectedProducts, HttpSession session) {
         // Guardar la lista en la sesión
         session.setAttribute("selectedProducts", selectedProducts);
+        selectedProductService.saveSelectedProducts(selectedProducts);
 
         // Puedes devolver una respuesta JSON o simplemente un mensaje indicando el éxito
         return ResponseEntity.ok("Productos seleccionados guardados correctamente");
