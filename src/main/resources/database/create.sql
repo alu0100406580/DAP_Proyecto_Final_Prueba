@@ -22,6 +22,29 @@ CREATE TABLE PriceHistory (
     FOREIGN KEY (productId) REFERENCES Products(id) ON DELETE CASCADE
 );
 
+-- Crear un trigger que se activa antes de la inserción en la tabla PriceHistory
+CREATE TRIGGER update_or_insert_price
+BEFORE INSERT ON PriceHistory
+FOR EACH ROW
+WHEN EXISTS (SELECT 1 FROM PriceHistory WHERE productId = NEW.productId AND DATE(read_at) = DATE('now'))
+BEGIN
+    -- Si existe, actualizar el valor price y evitar la inserción del nuevo registro
+    UPDATE PriceHistory SET price = NEW.price WHERE productId = NEW.productId AND DATE(read_at) = DATE('now');
+    -- Actualizar el precio del producto en la tabla Products
+        UPDATE Products SET price = NEW.price WHERE id = NEW.productId;
+    -- Evitar la inserción del nuevo registro
+    SELECT RAISE(IGNORE);
+END;
+
+CREATE TABLE SelectedProducts (
+    id INTEGER PRIMARY KEY,
+    id_supermarket INTEGER NOT NULL,
+    id_product INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    FOREIGN KEY (id_supermarket) REFERENCES Supermarkets(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_product) REFERENCES Products(id) ON DELETE CASCADE
+);
+
 ---- Crear un trigger que se activa antes de la inserción en la tabla PriceHistory
 --CREATE TRIGGER update_or_insert_price
 --BEFORE INSERT ON PriceHistory
@@ -39,17 +62,3 @@ CREATE TABLE PriceHistory (
 --    -- Si existe, evitar la inserción del nuevo registro
 --    SELECT RAISE(IGNORE);
 --END;
-
--- Crear un trigger que se activa antes de la inserción en la tabla PriceHistory
-CREATE TRIGGER update_or_insert_price
-BEFORE INSERT ON PriceHistory
-FOR EACH ROW
-WHEN EXISTS (SELECT 1 FROM PriceHistory WHERE productId = NEW.productId AND DATE(read_at) = DATE('now'))
-BEGIN
-    -- Si existe, actualizar el valor price y evitar la inserción del nuevo registro
-    UPDATE PriceHistory SET price = NEW.price WHERE productId = NEW.productId AND DATE(read_at) = DATE('now');
-    -- Actualizar el precio del producto en la tabla Products
-        UPDATE Products SET price = NEW.price WHERE id = NEW.productId;
-    -- Evitar la inserción del nuevo registro
-    SELECT RAISE(IGNORE);
-END;
