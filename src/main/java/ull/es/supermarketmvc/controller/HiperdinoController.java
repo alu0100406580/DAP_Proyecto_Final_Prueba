@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ull.es.supermarketmvc.crawler.HiperdinoCrawler;
 import ull.es.supermarketmvc.crawler.MercadonaCrawler;
 import ull.es.supermarketmvc.model.Product;
+import ull.es.supermarketmvc.model.SelectedProduct;
 import ull.es.supermarketmvc.repository.PriceHistoryRepository;
 import ull.es.supermarketmvc.repository.ProductRepository;
 
@@ -52,7 +54,7 @@ public class HiperdinoController {
         model.addAttribute("supermarketId", supermarketId);
         model.addAttribute("supermarketName", supermarketName);
         model.addAttribute("dateDatabaseUpdate", formattedDate);
-        model.addAttribute("selectedProducts", new ArrayList<Long>());
+        model.addAttribute("selectedProducts", new ArrayList<SelectedProduct>());
 
         return "productList";
     }
@@ -61,7 +63,7 @@ public class HiperdinoController {
     public ResponseEntity<String> executeCrawler() {
         System.out.println("Inicio actualizacion BD");
         long startTime = System.currentTimeMillis();
-        MercadonaCrawler crawlerHiperdino = new MercadonaCrawler();
+        HiperdinoCrawler crawlerHiperdino = new HiperdinoCrawler();
         long hiperdinoTime = System.currentTimeMillis() - startTime;
         System.out.println("Tiempo de ejecución de Hiperdino Update: " + hiperdinoTime / 1000 / 60 + " minutos");
 

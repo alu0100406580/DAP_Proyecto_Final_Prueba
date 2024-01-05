@@ -22,7 +22,7 @@ public class HiperdinoCrawler {
     List<Product> productList;
 
 
-    HiperdinoCrawler() {
+    public HiperdinoCrawler() {
         this.productList = new ArrayList<>();
         this.SideMenuScraper();
         this.myDB = new DatabaseManager();
