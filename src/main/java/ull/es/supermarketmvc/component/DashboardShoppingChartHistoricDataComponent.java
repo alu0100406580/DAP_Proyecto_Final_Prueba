@@ -2,13 +2,11 @@ package ull.es.supermarketmvc.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import ull.es.supermarketmvc.model.PriceHistory;
 import ull.es.supermarketmvc.model.SelectedProduct;
 import ull.es.supermarketmvc.repository.PriceHistoryRepository;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,26 +19,26 @@ public class DashboardShoppingChartHistoricDataComponent {
     public PriceHistoryRepository priceHistoryRepository;
 
     private List<SelectedProduct> selectedProducts;
-    private Map<LocalDate, Double> hiperdinoData;
-    private Map<LocalDate, Double> mercadonaData;
-    private Map<LocalDate, Double> tuTrebolData;
+    private Map<LocalDate, Double> hiperdinoTotalData;
+    private Map<LocalDate, Double> mercadonaTotalData;
+    private Map<LocalDate, Double> tuTrebolTotalData;
 
-    public Map<LocalDate, Double> getHiperdinoData() {
-        return hiperdinoData;
+    public Map<LocalDate, Double> getHiperdinoTotalData() {
+        return hiperdinoTotalData;
     }
 
-    public Map<LocalDate, Double> getMercadonaData() {
-        return mercadonaData;
+    public Map<LocalDate, Double> getMercadonaTotalData() {
+        return mercadonaTotalData;
     }
 
-    public Map<LocalDate, Double> getTuTrebolData() {
-        return tuTrebolData;
+    public Map<LocalDate, Double> getTuTrebolTotalData() {
+        return tuTrebolTotalData;
     }
 
     public DashboardShoppingChartHistoricDataComponent() {
-        hiperdinoData = new HashMap<>();
-        mercadonaData = new HashMap<>();
-        tuTrebolData = new HashMap<>();
+        hiperdinoTotalData = new HashMap<>();
+        mercadonaTotalData = new HashMap<>();
+        tuTrebolTotalData = new HashMap<>();
     }
 
     public void retrieveData(List<SelectedProduct> selectedProducts) {
@@ -51,9 +49,9 @@ public class DashboardShoppingChartHistoricDataComponent {
     }
 
     private void saveTotalPriceByDay(Long idSupermarket, LocalDate date, double totalPrice) {
-        if(idSupermarket == 1) this.hiperdinoData.put(date, totalPrice);
-        else if(idSupermarket == 2) this.mercadonaData.put(date, totalPrice);
-        else if(idSupermarket == 3) this.tuTrebolData.put(date, totalPrice);
+        if(idSupermarket == 1) this.hiperdinoTotalData.put(date, totalPrice);
+        else if(idSupermarket == 2) this.mercadonaTotalData.put(date, totalPrice);
+        else if(idSupermarket == 3) this.tuTrebolTotalData.put(date, totalPrice);
     }
 
     private void sumPricesByDatesAndSupermarket(Long idSupermarket, Map<LocalDate, List<PriceHistory>> daysByProductsHistoric) {

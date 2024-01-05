@@ -16,34 +16,45 @@
         <span th:text="${product.idProduct} + ' ' + ${product.idSupermarket}"></span>
     </li>
 </ul>
-<div>
-    <canvas id="shoppingChart"></canvas>
+
+<div class="row">
+    <div class="col-md-8">
+        <canvas id="barChartTotalHistoric"></canvas>
+    </div>
+    <div class="col-md-4">
+        <canvas id="pieTotalShoppingChart"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <canvas id="hi2storicChart"></canvas>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script th:inline="javascript">
-    var hiperdinoData = /*[[${hiperdinoChartData}]]*/ [];
-    var mercadonaData = /*[[${mercadonaChartData}]]*/ [];
-    var tuTrebolData = /*[[${tuTrebolChartData}]]*/ [];
+    var hiperdinoTotalBarData = /*[[${hiperdinoTotalChartData}]]*/ [];
+    var mercadonaTotalBarData = /*[[${mercadonaTotalChartData}]]*/ [];
+    var tuTrebolTotalBarData = /*[[${tuTrebolTotalChartData}]]*/ [];
 
-    var ctx = document.getElementById('shoppingChart').getContext('2d');
+    var ctxHistoricChart = document.getElementById('barChartTotalHistoric').getContext('2d');
 
     // Crea el objeto de configuración del gráfico
-        var chartConfig = {
+        var historicChartConfig = {
             type: 'bar', // Tipo de gráfico (puedes cambiarlo según tus necesidades)
             data: {
-                labels: hiperdinoData.labels || mercadonaData.labels || tuTrebolData.labels,
+                labels: hiperdinoTotalBarData.labels || mercadonaTotalBarData.labels || tuTrebolTotalBarData.labels,
                 datasets: [{
                     label: 'Hiperdino',
-                    data: hiperdinoData.data,
+                    data: hiperdinoTotalBarData.data,
                 },
                 {
                     label: 'Mercadona',
-                    data: mercadonaData.data,
+                    data: mercadonaTotalBarData.data,
                 },
                 {
                     label: 'Tu Trebol',
-                    data: tuTrebolData.data,
+                    data: tuTrebolTotalBarData.data,
                 }]
                 // Puedes agregar más datasets si tienes más datos
             },
@@ -52,14 +63,56 @@
                     y: {
                         beginAtZero: true
                     }
+                },
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: 'HISTORICO COMPRA TOTAL'
+                  }
                 }
             }
         };
 
         // Crea el gráfico
-        var myChart = new Chart(ctx, chartConfig);
+        var myChart = new Chart(ctxHistoricChart, historicChartConfig);
+</script>
+<script th:inline="javascript">
+    var hiperdinoTotalPieData = /*[[${hiperdinoTotalChartData}]]*/ [];
+    var mercadonaTotalPieData = /*[[${mercadonaTotalChartData}]]*/ [];
+    var tuTrebolTotalPieData = /*[[${tuTrebolTotalChartData}]]*/ [];
 
+    var ctxTotalChart = document.getElementById('pieTotalShoppingChart').getContext('2d');
 
+    // Crea el objeto de configuración del gráfico
+        var totalChartConfig = {
+            type: 'pie',
+            data: {
+                labels: [ 'Hiperdino', 'Mercadona', "Tu Trebol"],
+                datasets: [{
+                    label: 'Totales',
+                    data: [hiperdinoTotalPieData.data[0],mercadonaTotalPieData.data[0],tuTrebolTotalPieData.data[0]]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: 'PORCENTAJE TOTAL DE COMPRA'
+                  }
+                }
+            }
+        };
+
+        // Crea el gráfico
+        var myChart = new Chart(ctxTotalChart, totalChartConfig);
 </script>
 </body>
 </html>

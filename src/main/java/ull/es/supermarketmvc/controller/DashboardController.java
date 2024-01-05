@@ -47,28 +47,27 @@ public class DashboardController {
 
         createDataForShoppingChart(model);
 
-
         // Devolver el nombre de la vista Thymeleaf que mostrará los productos seleccionados
         return "dashboardProducts";
     }
 
     void createDataForShoppingChart(Model model) {
         dataComponent.retrieveData(this.selectedProducts);
-        Map<String, Object> chartDataHiperdino = new HashMap<>();
+        Map<String, Object> chartTotalDataHiperdino = new HashMap<>();
         Map<String, Object> chartDataMercadona = new HashMap<>();
         Map<String, Object> chartDataTuTrebol = new HashMap<>();
 
 
-        chartDataHiperdino.put("labels", dataComponent.getHiperdinoData().keySet());
-        chartDataHiperdino.put("data", dataComponent.getHiperdinoData().values());
-        model.addAttribute("hiperdinoChartData", chartDataHiperdino);
+        chartTotalDataHiperdino.put("labels", dataComponent.getHiperdinoTotalData().keySet());
+        chartTotalDataHiperdino.put("data", dataComponent.getHiperdinoTotalData().values());
+        model.addAttribute("hiperdinoTotalChartData", chartTotalDataHiperdino);
 
-        chartDataMercadona.put("labels", dataComponent.getMercadonaData().keySet());
-        chartDataMercadona.put("data", dataComponent.getMercadonaData().values());
-        model.addAttribute("mercadonaChartData", chartDataMercadona);
+        chartDataMercadona.put("labels", dataComponent.getMercadonaTotalData().keySet());
+        chartDataMercadona.put("data", dataComponent.getMercadonaTotalData().values());
+        model.addAttribute("mercadonaTotalChartData", chartDataMercadona);
 
-        chartDataTuTrebol.put("labels", dataComponent.getTuTrebolData().keySet());
-        chartDataTuTrebol.put("data", dataComponent.getTuTrebolData().values());
-        model.addAttribute("tuTrebolChartData", chartDataTuTrebol);
+        chartDataTuTrebol.put("labels", dataComponent.getTuTrebolTotalData().keySet());
+        chartDataTuTrebol.put("data", dataComponent.getTuTrebolTotalData().values());
+        model.addAttribute("tuTrebolTotalChartData", chartDataTuTrebol);
     }
 }
