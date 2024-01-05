@@ -22,13 +22,10 @@ import java.util.List;
 @Controller
 public class SupermarketController {
 
-
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private PriceHistoryRepository priceHistoryRepository;
-
     @Autowired
     private SelectedProductService selectedProductService;
 
@@ -58,5 +55,12 @@ public class SupermarketController {
 
         // Puedes devolver una respuesta JSON o simplemente un mensaje indicando el éxito
         return ResponseEntity.ok("Productos seleccionados guardados correctamente");
+    }
+    @PostMapping("/deleteProductListController")
+    public ResponseEntity<String> deleteProductListController() {
+        selectedProductService.deleteProductList();
+
+        // Puedes devolver una respuesta JSON o simplemente un mensaje indicando el éxito
+        return ResponseEntity.ok("Productos Seleccionados borrados");
     }
 }

@@ -46,4 +46,8 @@ public class SelectedProductService {
     public Product loadProduct(Long idProduct) {
         return productRepository.findById(idProduct).orElse(null);
     }
+
+    public void deleteProductList() {
+        selectedProductRepository.deleteAll();
+    }
 }
