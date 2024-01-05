@@ -17,20 +17,24 @@ public class DashboardShoppingChartHistoricDataComponent {
 
     @Autowired
     public PriceHistoryRepository priceHistoryRepository;
-
     private List<SelectedProduct> selectedProducts;
+    private Map<LocalDate, Double> hiperdinoHistoricData;
+    private Map<LocalDate, Double> mercadonaHistoricData;
+    private Map<LocalDate, Double> tuTrebolHistoricData;
+    private Map<Long, List<PriceHistory>> rawProductsBySupermarketId;
     private Map<LocalDate, Double> hiperdinoTotalData;
     private Map<LocalDate, Double> mercadonaTotalData;
     private Map<LocalDate, Double> tuTrebolTotalData;
 
+    public Map<Long, List<PriceHistory>> getRawProductsBySupermarketId() {
+        return rawProductsBySupermarketId;
+    }
     public Map<LocalDate, Double> getHiperdinoTotalData() {
         return hiperdinoTotalData;
     }
-
     public Map<LocalDate, Double> getMercadonaTotalData() {
         return mercadonaTotalData;
     }
-
     public Map<LocalDate, Double> getTuTrebolTotalData() {
         return tuTrebolTotalData;
     }
@@ -44,8 +48,8 @@ public class DashboardShoppingChartHistoricDataComponent {
     public void retrieveData(List<SelectedProduct> selectedProducts) {
         this.selectedProducts = selectedProducts;
         List<PriceHistory> selectedProductsHistoric = retrievePriceHistoryProducts();
-        Map<Long, List<PriceHistory>> productHistoricbySupermarket = categorizeSupermarketHistoricProducts(selectedProductsHistoric);
-        dataDateAndPrice(productHistoricbySupermarket);
+        this.rawProductsBySupermarketId = categorizeSupermarketHistoricProducts(selectedProductsHistoric);
+        dataDateAndPrice(this.rawProductsBySupermarketId);
     }
 
     private void saveTotalPriceByDay(Long idSupermarket, LocalDate date, double totalPrice) {
@@ -54,7 +58,7 @@ public class DashboardShoppingChartHistoricDataComponent {
         else if(idSupermarket == 3) this.tuTrebolTotalData.put(date, totalPrice);
     }
 
-    private void sumPricesByDatesAndSupermarket(Long idSupermarket, Map<LocalDate, List<PriceHistory>> daysByProductsHistoric) {
+    private void pricesByDatesAndSupermarket(Long idSupermarket, Map<LocalDate, List<PriceHistory>> daysByProductsHistoric) {
         int totalProductsByIdSupermarket = 0;
         for (SelectedProduct selectedProduct : this.selectedProducts) {
             Long supermarketId = selectedProduct.getIdSupermarket();
@@ -79,13 +83,12 @@ public class DashboardShoppingChartHistoricDataComponent {
                     totalPrices += priceHistory.getPrice() * productQuantity;
                 }
                 // Precios ya sumados
-                saveTotalPriceByDay(idSupermarket, localDate,totalPrices);
+                saveTotalPriceByDay(idSupermarket, localDate, totalPrices);
             } else {
                 // 0 si el número de elementos no coincide con el total de productsSelected
                 saveTotalPriceByDay(idSupermarket,localDate,0);
             }
         }
-
     }
 
     private void dataDateAndPrice(Map<Long, List<PriceHistory>> productHistoricbySupermarket) {
@@ -99,7 +102,7 @@ public class DashboardShoppingChartHistoricDataComponent {
                 historyListToMap.add(historyPrice);
                 daysByProductsHistoric.put(localDateToMap, historyListToMap);
             }
-            sumPricesByDatesAndSupermarket(supermarketId, daysByProductsHistoric);
+            pricesByDatesAndSupermarket(supermarketId, daysByProductsHistoric);
         }
     }
 

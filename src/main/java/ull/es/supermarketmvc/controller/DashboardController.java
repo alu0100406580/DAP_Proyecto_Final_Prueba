@@ -17,19 +17,14 @@ import java.util.*;
 public class DashboardController {
 
     private List<SelectedProduct> selectedProducts;
-
     @Autowired
     private SelectedProductService selectedProductService;
-
     @Autowired
     private SelectedProductRepository selectedProductRepository;
-
     @Autowired
     private PriceHistoryRepository priceHistoryRepository;
-
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private DashboardShoppingChartHistoricDataComponent dataComponent;
 
@@ -53,10 +48,10 @@ public class DashboardController {
 
     void createDataForShoppingChart(Model model) {
         dataComponent.retrieveData(this.selectedProducts);
+
         Map<String, Object> chartTotalDataHiperdino = new HashMap<>();
         Map<String, Object> chartDataMercadona = new HashMap<>();
         Map<String, Object> chartDataTuTrebol = new HashMap<>();
-
 
         chartTotalDataHiperdino.put("labels", dataComponent.getHiperdinoTotalData().keySet());
         chartTotalDataHiperdino.put("data", dataComponent.getHiperdinoTotalData().values());
@@ -69,5 +64,7 @@ public class DashboardController {
         chartDataTuTrebol.put("labels", dataComponent.getTuTrebolTotalData().keySet());
         chartDataTuTrebol.put("data", dataComponent.getTuTrebolTotalData().values());
         model.addAttribute("tuTrebolTotalChartData", chartDataTuTrebol);
+
+        model.addAttribute("rawProductsBySupermarketId", dataComponent.getRawProductsBySupermarketId());
     }
 }

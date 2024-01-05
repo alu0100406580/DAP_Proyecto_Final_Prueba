@@ -26,8 +26,14 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <canvas id="hi2storicChart"></canvas>
+    <div class="col-md-4">
+        <canvas id="hiperdinoHistoricChart"></canvas>
+    </div>
+    <div class="col-md-4">
+        <canvas id="mercadonaHistoricChart"></canvas>
+    </div>
+    <div class="col-md-4">
+        <canvas id="tuTrebolHistoricChart"></canvas>
     </div>
 </div>
 
@@ -76,7 +82,6 @@
                 }
             }
         };
-
         // Crea el gráfico
         var myChart = new Chart(ctxHistoricChart, historicChartConfig);
 </script>
@@ -91,7 +96,7 @@
         var totalChartConfig = {
             type: 'pie',
             data: {
-                labels: [ 'Hiperdino', 'Mercadona', "Tu Trebol"],
+                labels: [ 'Hiperdino', 'Mercadona', 'Tu Trebol'],
                 datasets: [{
                     label: 'Totales',
                     data: [hiperdinoTotalPieData.data[0],mercadonaTotalPieData.data[0],tuTrebolTotalPieData.data[0]]
@@ -110,9 +115,210 @@
                 }
             }
         };
-
         // Crea el gráfico
         var myChart = new Chart(ctxTotalChart, totalChartConfig);
+</script>
+
+<script th:inline="javascript">
+    var rawProductsBySupermarketId = /*[[${rawProductsBySupermarketId}]]*/ [];
+    var labelsFormattedDates = [];
+    var datasets = [];
+
+    var uniqueDatesSet = new Set();
+
+    // Crear un array de fechas formateadas y almacenar valores únicos en el conjunto
+    rawProductsBySupermarketId[1].forEach(function(item) {
+        var rawDate = item.readAt;
+        var dateObject = new Date(rawDate);
+
+        // Formatear la fecha como "27-12-2023"
+        var formattedDate = dateObject.getDate() + '-' + (dateObject.getMonth() + 1) + '-' + dateObject.getFullYear();
+
+        uniqueDatesSet.add(formattedDate);
+    });
+
+    // Convertir el conjunto de fechas únicas en un array
+    var labelsFormattedDates = Array.from(uniqueDatesSet);
+
+    // Crear un objeto para almacenar datos agrupados por nombre de producto
+    var groupedData = {};
+
+    // Iterar sobre los datos y agrupar por nombre de producto
+    rawProductsBySupermarketId[1].forEach(function(item) {
+      var productName = item.product.name;
+
+      if (!groupedData[productName]) {
+        groupedData[productName] = {
+          label: productName,
+          data: []
+        };
+      }
+
+      groupedData[productName].data.push(item.price);
+    });
+
+    // Convertir el objeto agrupado en un array de datasets
+    var datasets = Object.values(groupedData);
+
+    // Crea el objeto de configuración del gráfico
+    var mercadonaChartConfig = {
+        type: 'bar',
+        data: {
+            labels: labelsFormattedDates,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'HISTORICO PRODUCTOS HIPERDINO'
+                }
+            }
+        }
+    };
+
+    var ctxMercadonaChart = document.getElementById('hiperdinoHistoricChart').getContext('2d');
+
+    // Crea el gráfico
+    var myChart = new Chart(ctxMercadonaChart, mercadonaChartConfig);
+</script>
+<script th:inline="javascript">
+    var rawProductsBySupermarketId = /*[[${rawProductsBySupermarketId}]]*/ [];
+    var labelsFormattedDates = [];
+    var datasets = [];
+
+    var uniqueDatesSet = new Set();
+
+    // Crear un array de fechas formateadas y almacenar valores únicos en el conjunto
+    rawProductsBySupermarketId[2].forEach(function(item) {
+        var rawDate = item.readAt;
+        var dateObject = new Date(rawDate);
+
+        // Formatear la fecha como "27-12-2023"
+        var formattedDate = dateObject.getDate() + '-' + (dateObject.getMonth() + 1) + '-' + dateObject.getFullYear();
+
+        uniqueDatesSet.add(formattedDate);
+    });
+
+    // Convertir el conjunto de fechas únicas en un array
+    var labelsFormattedDates = Array.from(uniqueDatesSet);
+
+    // Crear un objeto para almacenar datos agrupados por nombre de producto
+    var groupedData = {};
+
+    // Iterar sobre los datos y agrupar por nombre de producto
+    rawProductsBySupermarketId[2].forEach(function(item) {
+      var productName = item.product.name;
+
+      if (!groupedData[productName]) {
+        groupedData[productName] = {
+          label: productName,
+          data: []
+        };
+      }
+
+      groupedData[productName].data.push(item.price);
+    });
+
+    // Convertir el objeto agrupado en un array de datasets
+    var datasets = Object.values(groupedData);
+
+    // Crea el objeto de configuración del gráfico
+    var mercadonaChartConfig = {
+        type: 'bar',
+        data: {
+            labels: labelsFormattedDates,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'HISTORICO PRODUCTOS MERCADONA'
+                }
+            }
+        }
+    };
+
+    var ctxMercadonaChart = document.getElementById('mercadonaHistoricChart').getContext('2d');
+
+    // Crea el gráfico
+    var myChart = new Chart(ctxMercadonaChart, mercadonaChartConfig);
+</script>
+<script th:inline="javascript">
+    var rawProductsBySupermarketId = /*[[${rawProductsBySupermarketId}]]*/ [];
+    var labelsFormattedDates = [];
+    var datasets = [];
+
+    var uniqueDatesSet = new Set();
+
+    // Crear un array de fechas formateadas y almacenar valores únicos en el conjunto
+    rawProductsBySupermarketId[3].forEach(function(item) {
+        var rawDate = item.readAt;
+        var dateObject = new Date(rawDate);
+
+        // Formatear la fecha como "27-12-2023"
+        var formattedDate = dateObject.getDate() + '-' + (dateObject.getMonth() + 1) + '-' + dateObject.getFullYear();
+
+        uniqueDatesSet.add(formattedDate);
+    });
+
+    // Convertir el conjunto de fechas únicas en un array
+    var labelsFormattedDates = Array.from(uniqueDatesSet);
+
+    // Crear un objeto para almacenar datos agrupados por nombre de producto
+    var groupedData = {};
+
+    // Iterar sobre los datos y agrupar por nombre de producto
+    rawProductsBySupermarketId[3].forEach(function(item) {
+      var productName = item.product.name;
+
+      if (!groupedData[productName]) {
+        groupedData[productName] = {
+          label: productName,
+          data: []
+        };
+      }
+
+      groupedData[productName].data.push(item.price);
+    });
+
+    // Convertir el objeto agrupado en un array de datasets
+    var datasets = Object.values(groupedData);
+
+    // Crea el objeto de configuración del gráfico
+    var mercadonaChartConfig = {
+        type: 'bar',
+        data: {
+            labels: labelsFormattedDates,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'HISTORICO PRODUCTOS TU TREBOL'
+                }
+            }
+        }
+    };
+
+    var ctxMercadonaChart = document.getElementById('tuTrebolHistoricChart').getContext('2d');
+
+    // Crea el gráfico
+    var myChart = new Chart(ctxMercadonaChart, mercadonaChartConfig);
 </script>
 </body>
 </html>
