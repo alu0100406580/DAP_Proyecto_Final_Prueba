@@ -19,7 +19,8 @@
     <div id="messages" class="messages" style="display: none;"></div>
     <!--    <a th:href="@{/mercadona/update}" class="wsk-btn">Actualizar BD</a>-->
     <button id="updateButton" class="wsk-btn">Actualizar BD</button>
-    <button id="showProductsButton" class="wsk-btn" onclick="sendProductList()">Cuadro de Mando</button>
+    <button id="showProductsButton" class="wsk-btn" onclick="sendProductList(true)">Cuadro de Mando</button>
+    <button id="saveList" class="wsk-btn" onclick="sendProductList(false)">Guardar Lista</button>
     <button id="deleteSelectedList" class="wsk-btn" onclick="deleteProductList()">Borrar Listas</button>
 </div>
 <div class="container text-center" style="margin-top: 15px;">
@@ -31,7 +32,13 @@
             <p id="selectedProductsText"></p>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+        <input type="text" id="searchInput" placeholder="Buscar por nombre" oninput="filterProducts()" />
+        </div>
+    </div>
 </div>
+
 
 <div class="shell">
     <div class="container">
@@ -42,9 +49,9 @@
                     <div class="wsk-cp-product">
                         <div class="wsk-cp-img">
                             <!-- Verifica si producto.imageUrl está vacío -->
-                            <img th:if="${producto.urlProduct ne ''}" th:src="${producto.imageUrl}" alt="Product" class="fixed-size-image" />
+                            <img th:if="${producto.urlProduct ne ''}" th:src="${producto.imageUrl}" alt="Product" class="fixed-size-image" loading="lazy"/>
                             <!-- Si producto.imageUrl está vacío, carga la imagen predeterminada -->
-                            <img th:unless="${producto.urlProduct ne ''}" th:src="@{/static/img/mercadona.png}" alt="Default Product" class="fixed-size-image" />
+                            <img th:unless="${producto.urlProduct ne ''}" th:src="@{/static/img/mercadona.png}" alt="Default Product" class="fixed-size-image" loading="lazy"/>
                         </div>
                         <div class="wsk-cp-text">
                             <div class="category" th:if="${producto.urlProduct ne ''}">
@@ -115,7 +122,7 @@
         actualizarTextoProductosSeleccionados();
     }
 
-    function sendProductList() {
+    function sendProductList(redirectToDashboard) {
         try {
             // Enviar la lista de productos seleccionados a través de una petición AJAX
             var xhr = new XMLHttpRequest();
@@ -126,8 +133,10 @@
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     console.log('La solicitud se completó correctamente.');
-                    // Realizar la redirección después de la respuesta exitosa
-                    window.location.href = "/dashboard/products";
+                    // Realizar la redirección después de la respuesta exitosa si es necesario
+                    if (redirectToDashboard) {
+                        window.location.href = "/dashboard/products";
+                    }
                 } else {
                     console.error('Error en la solicitud: ' + xhr.statusText);
                 }
@@ -212,6 +221,23 @@
         var messagesDiv = document.getElementById('messages');
         messagesDiv.innerHTML = '';
         messagesDiv.style.display = 'none';
+    }
+</script>
+<script>
+    function filterProducts() {
+        var searchInput = document.getElementById('searchInput').value.toLowerCase();
+        var productContainers = document.getElementsByClassName('col-md-3');
+
+        for (var i = 0; i < productContainers.length; i++) {
+            var container = productContainers[i];
+            var title = container.querySelector('.title-product h3').textContent.toLowerCase();
+
+            if (title.includes(searchInput)) {
+                container.style.display = '';  // Mostrar el contenedor si coincide con la búsqueda
+            } else {
+                container.style.display = 'none';  // Ocultar el contenedor si no coincide con la búsqueda
+            }
+        }
     }
 </script>
 </body>

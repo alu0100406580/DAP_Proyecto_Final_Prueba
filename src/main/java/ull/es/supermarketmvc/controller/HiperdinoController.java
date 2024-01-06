@@ -39,7 +39,7 @@ public class HiperdinoController {
         int page = 0;
         int size = 200;
         Pageable pageable = PageRequest.of(page, size);
-        List<Product> products = productRepository.findProductBySupermarketIdPageable(1, pageable);
+        List<Product> products = productRepository.findProductBySupermarketId(1);
         List<Product> allProducts = productRepository.findProductBySupermarketId(1);
         List<Long> productsIds = allProducts.stream().map(Product::getId).collect(Collectors.toList());
 

@@ -39,7 +39,7 @@ public class TutrebolController {
         int page = 0;
         int size = 200;
         Pageable pageable = PageRequest.of(page, size);
-        List<Product> products = productRepository.findProductBySupermarketIdPageable(3, pageable);
+        List<Product> products = productRepository.findProductBySupermarketId(3);
         List<Product> allProducts = productRepository.findProductBySupermarketId(3);
         List<Long> productsIds = allProducts.stream().map(Product::getId).collect(Collectors.toList());
 

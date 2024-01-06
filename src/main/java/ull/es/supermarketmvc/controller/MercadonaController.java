@@ -39,7 +39,7 @@ public class MercadonaController {
         int page = 0;
         int size = 200;
         Pageable pageable = PageRequest.of(page, size);
-        List<Product> products = productRepository.findProductBySupermarketIdPageable(2, pageable);
+        List<Product> products = productRepository.findProductBySupermarketId(2);
         List<Product> allProducts = productRepository.findProductBySupermarketId(2);
         List<Long> productsIds = allProducts.stream().map(Product::getId).collect(Collectors.toList());
 
