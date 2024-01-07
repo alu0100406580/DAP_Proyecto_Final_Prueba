@@ -11,10 +11,24 @@ body{
 .navbar-brand {
   letter-spacing: 3px;
   color: #c24244;
+  transition: color 0.3s ease-in-out;
 }
 
 .navbar-brand:hover {
-	color: #c24244;
+  color: #ff6b6c; /* Cambia el color al pasar el ratón */
+}
+
+.navbar-nav .nav-item:hover {
+  background-color: #f8f9fa; /* Cambia el color de fondo al pasar el ratón sobre los elementos li */
+  transition: background-color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-item:hover .nav-link {
+  color: #ff6b6c; /* Cambia el color del texto al pasar el ratón sobre los elementos li */
+}
+
+.navbar-nav .nav-item {
+  transition: background-color 0.3s ease-in-out;
 }
 
 .navbar-scroll .nav-link,
