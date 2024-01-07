@@ -7,16 +7,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" th:href="@{/static/productList.css}" />
+    <style>
+        #myGrid {
+        width:100%;
+        min-height: 500px;
+        max-height: 700px;
+    }
+    .ag-center-cols-viewport {
+        background-color: #EAFAE1
+    }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
 </head>
 <body>
-<h1>Productos Seleccionados</h1>
-<ul>
-    <li th:each="product : ${selectedProducts}">
-        <!-- Aquí puedes mostrar detalles de cada producto utilizando productId -->
-        <span th:text="${product.idProduct} + ' ' + ${product.idSupermarket}"></span>
-    </li>
-</ul>
-
 <div class="row">
     <div class="col-md-8">
         <canvas id="barChartTotalHistoric"></canvas>
@@ -34,6 +38,12 @@
     </div>
     <div class="col-md-4">
         <canvas id="tuTrebolHistoricChart"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="myGrid" class="ag-theme-quartz">
+        </div>
     </div>
 </div>
 
@@ -118,7 +128,6 @@
         // Crea el gráfico
         var myChart = new Chart(ctxTotalChart, totalChartConfig);
 </script>
-
 <script th:inline="javascript">
     var rawProductsBySupermarketId = /*[[${rawProductsBySupermarketId}]]*/ [];
     var labelsFormattedDates = [];
@@ -319,6 +328,36 @@
 
     // Crea el gráfico
     var myChart = new Chart(ctxMercadonaChart, mercadonaChartConfig);
+</script>
+<script th:inline="javascript">
+    var selectedProducts = /*[[${selectedProducts}]]*/ [];
+
+    const rowData = selectedProducts.map(product => ({
+        Supermercado: product.supermarket.name,
+        Nombre: product.product.name,
+        "Precio Unidad": product.product.price.toFixed(2),
+        Cantidad: product.quantity,
+        Total: (product.product.price * product.quantity).toFixed(2)
+    }));
+
+    const gridOptions = {
+        rowData: rowData,
+        columnDefs: [
+            { field: "Supermercado", filter: 'agTextColumnFilter' }, // Agrega filtro de texto para Supermercado
+            { field: "Nombre", filter: 'agTextColumnFilter', flex: 1 }, // Agrega filtro de texto para Nombre
+            { field: "Precio Unidad" },
+            { field: "Cantidad" },
+            { field: "Total" }
+        ],
+        // Configura la cuadrícula para ser scrolleable si supera 10 filas
+        domLayout: 'autoHeight',
+        defaultColDef: {
+            cellStyle: { backgroundColor: '#EAFAE1' } // Reemplaza "yourColor" con el color que desees
+        }
+    };
+
+    const myGridElement = document.querySelector('#myGrid');
+    new agGrid.Grid(myGridElement, gridOptions);
 </script>
 </body>
 </html>
