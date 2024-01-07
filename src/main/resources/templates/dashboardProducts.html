@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" th:href="@{/static/productList.css}" />
+    <link rel="stylesheet" th:href="@{/static/project.css}" />
     <style>
         #myGrid {
         width:100%;
@@ -16,37 +16,55 @@
     .ag-center-cols-viewport {
         background-color: #EAFAE1
     }
-
     </style>
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
 </head>
 <body>
-<div class="row">
-    <div class="col-md-8">
-        <canvas id="barChartTotalHistoric"></canvas>
+<nav class="navbar navbar-expand-lg fixed-top navbar-scroll shadow-0" style="background-color: #ffede7;">
+    <div class="container">
+        <a class="navbar-brand" href="/">AhorroCesta</a>
+        <div class="collapse navbar-collapse" id="navbarExample01">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link px-3" th:href="@{/hiperdino/products}">Hiperdino</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" th:href="@{/mercadona/products}">Mercadona</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" th:href="@{/tutrebol/products}">Tu trebol</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="col-md-4">
-        <canvas id="pieTotalShoppingChart"></canvas>
+</nav>
+<div class="content-container">
+    <div class="row">
+        <div class="col-md-8">
+            <canvas id="barChartTotalHistoric"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="pieTotalShoppingChart"></canvas>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <canvas id="hiperdinoHistoricChart"></canvas>
+    <div class="row">
+        <div class="col-md-4">
+            <canvas id="hiperdinoHistoricChart"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="mercadonaHistoricChart"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="tuTrebolHistoricChart"></canvas>
+        </div>
     </div>
-    <div class="col-md-4">
-        <canvas id="mercadonaHistoricChart"></canvas>
-    </div>
-    <div class="col-md-4">
-        <canvas id="tuTrebolHistoricChart"></canvas>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div id="myGrid" class="ag-theme-quartz">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="myGrid" class="ag-theme-quartz">
+            </div>
         </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script th:inline="javascript">
     var hiperdinoTotalBarData = /*[[${hiperdinoTotalChartData}]]*/ [];

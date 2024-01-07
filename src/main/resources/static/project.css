@@ -3,14 +3,38 @@ body{
   font-family: 'Muli', sans-serif;
   background:#ddd;
 }
+
 .shell{
   padding:80px 0;
 }
-/*
-.selected > .wsk-cp-product > .wsk-cp-text {
-    background-color: #ffcccb !important;
+
+.navbar-brand {
+  letter-spacing: 3px;
+  color: #c24244;
 }
-*/
+
+.navbar-brand:hover {
+	color: #c24244;
+}
+
+.navbar-scroll .nav-link,
+.navbar-scroll .fa-bars {
+  color: #7f4722;
+}
+
+.navbar-scrolled .nav-link,
+.navbar-scrolled .fa-bars {
+  color: #7f4722;
+}
+
+.navbar-scrolled {
+  background-color: #ffede7;
+}
+
+.content-container {
+  padding-top: 100px; /* Ajusta este valor al tamaño de la altura de tu navbar */
+}
+
 .selected {
     background-color: #ffcccb;
 }
@@ -230,6 +254,7 @@ a.buy-btn{
   background: #FF9800;
   color: #fff;
 }
+
 
 /*.selected > .wsp-cp-product > .wsp-cp-text {
     background-color: #ffcccb !important;

@@ -6,76 +6,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" th:href="@{/static/productList.css}" />
+    <link rel="stylesheet" th:href="@{/static/project.css}" />
 </head>
 <body>
-<div class="container text-center">
-    <h1>Lista de Productos de [[${supermarketName}]]</h1>
-    <p>última vez actualizado el: [[${dateDatabaseUpdate}]]</p>
-    <div id="loadingIndicator" style="display: none;">
-        <img th:src="@{/static/img/spinning.gif}" alt="Indicador de trabajo">
-    </div>
-    <div id="messages" class="messages" style="display: none;"></div>
-    <!--    <a th:href="@{/mercadona/update}" class="wsk-btn">Actualizar BD</a>-->
-    <button id="updateButton" class="wsk-btn">Actualizar BD</button>
-    <button id="showProductsButton" class="wsk-btn" onclick="sendProductList(true)">Cuadro de Mando</button>
-    <button id="saveList" class="wsk-btn" onclick="sendProductList(false)">Guardar Lista</button>
-    <button id="deleteSelectedList" class="wsk-btn" onclick="deleteProductList()">Borrar Listas</button>
-</div>
-<div class="container text-center" style="margin-top: 15px;">
-    <div class="row">
-        <div class="col-md-6">
-            <p th:text="'Hay ' + ${#lists.size(products)} + ' productos'"></p>
-        </div>
-        <div class="col-md-6">
-            <p id="selectedProductsText"></p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-        <input type="text" id="searchInput" placeholder="Buscar por nombre" oninput="filterProducts()" />
-        </div>
-    </div>
-</div>
-
-
-<div class="shell">
+<nav class="navbar navbar-expand-lg fixed-top navbar-scroll shadow-0" style="background-color: #ffede7;">
     <div class="container">
+        <a class="navbar-brand" href="/">AhorroCesta</a>
+        <div class="collapse navbar-collapse" id="navbarExample01">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link px-3" th:href="@{/hiperdino/products}">Hiperdino</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" th:href="@{/mercadona/products}">Mercadona</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" th:href="@{/tutrebol/products}">Tu trebol</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="content-container">
+    <div class="container text-center">
+        <h1>Lista de Productos de [[${supermarketName}]]</h1>
+        <p>última vez actualizado el: [[${dateDatabaseUpdate}]]</p>
+        <div id="loadingIndicator" style="display: none;">
+            <img th:src="@{/static/img/spinning.gif}" alt="Indicador de trabajo">
+        </div>
+        <div id="messages" class="messages" style="display: none;"></div>
+        <!--    <a th:href="@{/mercadona/update}" class="wsk-btn">Actualizar BD</a>-->
+        <button id="updateButton" class="wsk-btn">Actualizar BD</button>
+        <button id="showProductsButton" class="wsk-btn" onclick="sendProductList(true)">Cuadro de Mando</button>
+        <button id="saveList" class="wsk-btn" onclick="sendProductList(false)">Guardar Lista</button>
+        <button id="deleteSelectedList" class="wsk-btn" onclick="deleteProductList()">Borrar Listas</button>
+    </div>
+    <div class="container text-center" style="margin-top: 15px;">
         <div class="row">
-            <th:block th:each="producto, iterStat : ${products}">
-                <div class="col-md-3" th:classappend="${#lists.contains(selectedProducts, producto.id) ? 'selected' : ''}"
-                     th:onclick="|seleccionarProducto(this, ${producto.id}, this.querySelector('.quantity'))|" style="cursor: pointer;">
-                    <div class="wsk-cp-product">
-                        <div class="wsk-cp-img">
-                            <!-- Verifica si producto.imageUrl está vacío -->
-                            <img th:if="${producto.urlProduct ne ''}" th:src="${producto.imageUrl}" alt="Product" class="fixed-size-image" loading="lazy"/>
-                            <!-- Si producto.imageUrl está vacío, carga la imagen predeterminada -->
-                            <img th:unless="${producto.urlProduct ne ''}" th:src="@{/static/img/mercadona.png}" alt="Default Product" class="fixed-size-image" loading="lazy"/>
-                        </div>
-                        <div class="wsk-cp-text">
-                            <div class="category" th:if="${producto.urlProduct ne ''}">
-                                <a th:href="${producto.urlProduct}" target="_blank"><span>Enlace</span></a>
+            <div class="col-md-6">
+                <p th:text="'Hay ' + ${#lists.size(products)} + ' productos'"></p>
+            </div>
+            <div class="col-md-6">
+                <p id="selectedProductsText"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            <input type="text" id="searchInput" placeholder="Buscar por nombre" oninput="filterProducts()" />
+            </div>
+        </div>
+    </div>
+    <div class="shell">
+        <div class="container">
+            <div class="row">
+                <th:block th:each="producto, iterStat : ${products}">
+                    <div class="col-md-3" th:classappend="${#lists.contains(selectedProducts, producto.id) ? 'selected' : ''}"
+                         th:onclick="|seleccionarProducto(this, ${producto.id}, this.querySelector('.quantity'))|" style="cursor: pointer;">
+                        <div class="wsk-cp-product">
+                            <div class="wsk-cp-img">
+                                <!-- Verifica si producto.imageUrl está vacío -->
+                                <img th:if="${producto.urlProduct ne ''}" th:src="${producto.imageUrl}" alt="Product" class="fixed-size-image" loading="lazy"/>
+                                <!-- Si producto.imageUrl está vacío, carga la imagen predeterminada -->
+                                <img th:unless="${producto.urlProduct ne ''}" th:src="@{/static/img/mercadona.png}" alt="Default Product" class="fixed-size-image" loading="lazy"/>
                             </div>
-                            <div class="title-product">
-                                <h3 th:text="${producto.name}"></h3>
-                            </div>
-                            <div class="card-footer">
-                                <div class="wcf-left"><span class="price">[[${producto.price}]] €</span></div>
-                                <div class="wcf-right">
-                                    <input class="quantity" type="number" value="0" min="0" max="99" required>
+                            <div class="wsk-cp-text">
+                                <div class="category" th:if="${producto.urlProduct ne ''}">
+                                    <a th:href="${producto.urlProduct}" target="_blank"><span>Enlace</span></a>
+                                </div>
+                                <div class="title-product">
+                                    <h3 th:text="${producto.name}"></h3>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="wcf-left"><span class="price">[[${producto.price}]] €</span></div>
+                                    <div class="wcf-right">
+                                        <input class="quantity" type="number" value="0" min="0" max="99" required>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Cierra la fila cada vez que hay 4 productos o es el último -->
-                <div th:if="${iterStat.index % 4 == 3 or iterStat.last}" class="clearfix"></div>
-            </th:block>
+                    <!-- Cierra la fila cada vez que hay 4 productos o es el último -->
+                    <div th:if="${iterStat.index % 4 == 3 or iterStat.last}" class="clearfix"></div>
+                </th:block>
+            </div>
         </div>
     </div>
 </div>
-
 
 <!-- Script para gestionar la selección de productos -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
