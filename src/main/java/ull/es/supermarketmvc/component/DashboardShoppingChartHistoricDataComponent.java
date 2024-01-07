@@ -18,9 +18,6 @@ public class DashboardShoppingChartHistoricDataComponent {
     @Autowired
     public PriceHistoryRepository priceHistoryRepository;
     private List<SelectedProduct> selectedProducts;
-    private Map<LocalDate, Double> hiperdinoHistoricData;
-    private Map<LocalDate, Double> mercadonaHistoricData;
-    private Map<LocalDate, Double> tuTrebolHistoricData;
     private Map<Long, List<PriceHistory>> rawProductsBySupermarketId;
     private Map<LocalDate, Double> hiperdinoTotalData;
     private Map<LocalDate, Double> mercadonaTotalData;
@@ -46,6 +43,9 @@ public class DashboardShoppingChartHistoricDataComponent {
     }
 
     public void retrieveData(List<SelectedProduct> selectedProducts) {
+        hiperdinoTotalData = new HashMap<>();
+        mercadonaTotalData = new HashMap<>();
+        tuTrebolTotalData = new HashMap<>();
         this.selectedProducts = selectedProducts;
         List<PriceHistory> selectedProductsHistoric = retrievePriceHistoryProducts();
         this.rawProductsBySupermarketId = categorizeSupermarketHistoricProducts(selectedProductsHistoric);
