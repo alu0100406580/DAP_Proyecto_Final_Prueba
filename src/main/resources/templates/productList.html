@@ -51,8 +51,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-            <input type="text" id="searchInput" placeholder="Buscar por nombre" oninput="filterProducts()" />
+            <div class="col-md-6">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre" oninput="filterProducts()" />
+            </div>
+            <div class="col-md-6">
+                <input type="checkbox" id="filterSelectedCheckbox" onchange="toggleSelectedProducts(this.checked)" />
+                <label for="filterSelectedCheckbox">Mostrar solo seleccionados</label>
             </div>
         </div>
     </div>
@@ -137,6 +141,21 @@
         console.log('Productos seleccionados:', selectedProducts);
         actualizarTextoProductosSeleccionados();
     }
+
+    function toggleSelectedProducts() {
+        var showSelected = document.getElementById('filterSelectedCheckbox').checked;
+        var allProducts = document.querySelectorAll('.col-md-3'); // Assuming this is the container for each product
+
+        allProducts.forEach(function (productDiv) {
+            // If the checkbox is checked, hide all products that are not selected
+            if (showSelected && !productDiv.classList.contains('selected')) {
+                productDiv.style.display = 'none';
+            } else {
+                productDiv.style.display = 'block'; // or 'flex' if you are using flexbox
+            }
+        });
+    }
+
 
     function sendProductList(redirectToDashboard) {
         try {
