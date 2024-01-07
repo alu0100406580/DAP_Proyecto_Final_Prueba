@@ -53,13 +53,45 @@
     var mercadonaTotalBarData = /*[[${mercadonaTotalChartData}]]*/ [];
     var tuTrebolTotalBarData = /*[[${tuTrebolTotalChartData}]]*/ [];
 
+    // Función para formatear la fecha de "YYYY-mm-dd" a "dd-mm-YYYY"
+    function formatDate(inputDate) {
+        var parts = inputDate.split('-');
+        // Reorganizar las partes de la fecha
+        var formattedDate = parts[2] + '-' + parts[1] + '-' + parts[0];
+        return formattedDate;
+    }
+
+    // Obtener todas las etiquetas y formatearlas
+    var allLabels = hiperdinoTotalBarData.labels.concat(mercadonaTotalBarData.labels, tuTrebolTotalBarData.labels);
+
+    // Obtener el array con la mayor longitud
+    var largestArray = hiperdinoTotalBarData.labels;
+    if (mercadonaTotalBarData.labels && mercadonaTotalBarData.labels.length > largestArray.length) {
+        largestArray = mercadonaTotalBarData.labels;
+    }
+    if (tuTrebolTotalBarData.labels && tuTrebolTotalBarData.labels.length > largestArray.length) {
+        largestArray = tuTrebolTotalBarData.labels;
+    }
+
+    // Utilizar un conjunto (Set) para eliminar duplicados del array con la mayor longitud y luego convertirlo de nuevo a un array
+    var uniqueLabels = Array.from(new Set(largestArray));
+
+    // Ordenar el array por fecha
+    var formattedLabels = uniqueLabels
+      .map(formatDate)
+      .sort(function(a, b) {
+        var dateA = new Date(a.split('-').reverse().join('-'));
+        var dateB = new Date(b.split('-').reverse().join('-'));
+        return dateA - dateB;
+      });
+
     var ctxHistoricChart = document.getElementById('barChartTotalHistoric').getContext('2d');
 
     // Crea el objeto de configuración del gráfico
         var historicChartConfig = {
             type: 'bar', // Tipo de gráfico (puedes cambiarlo según tus necesidades)
             data: {
-                labels: hiperdinoTotalBarData.labels || mercadonaTotalBarData.labels || tuTrebolTotalBarData.labels,
+                labels: formattedLabels,
                 datasets: [{
                     label: 'Hiperdino',
                     data: hiperdinoTotalBarData.data,
