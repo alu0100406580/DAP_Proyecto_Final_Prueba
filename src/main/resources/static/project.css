@@ -49,8 +49,78 @@ body{
   padding-top: 100px; /* Ajusta este valor al tamaño de la altura de tu navbar */
 }
 
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This will center the children horizontally */
+    justify-content: center; /* This will center the children vertically */
+    height: 100vh; /* This will take the full height of the viewport */
+    text-align: center; /* Ensures that the text within is centered */
+}
+
+.main-container > h1 {
+    margin-bottom: 20px; /* Add some space between the h1 and the shopping cart container */
+    letter-spacing: 3px;
+    color: #c24244;
+
+
+    /* Add any additional styling you want for the h1 */
+}
+
+.main-container > h1:hover {
+  color: #ff6b6c;
+}
+
+.shopping-cart-container {
+    border: 2px solid #ccc;
+    padding: 40px;
+    margin-bottom: 20px; /* Ensures some space below the container, adjust as needed */
+    max-width: 800px;
+    height: 50vh; /* Half the height of the viewport */
+    border-radius: 10px;
+    background-color: #ffede7;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Aligns the inner content horizontally */
+}
+
+.shopping-cart-container h2 {
+    color: #ff6b6c; /* Adjust color as needed */
+}
+.shopping-cart-container h2:hover {
+    color: #c24244; /* Adjust color as needed */
+}
+
+
+.cart-button {
+    display: inline-block;
+    padding: 15px 30px; /* Increased padding for a larger button */
+    text-decoration: none;
+    background-color: #ffede7; /* Solid background color for the button */
+    background: rgba(255,255,255,0.5);
+    color: #333; /* Text color for the button */
+    border: 1px solid #ccc; /* Border to define the edges of the button */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Shadow to make it pop like a button */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cart-button:hover {
+    background-color: #f8f9fa; /* Lighter color on hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Larger shadow on hover for a "lifting" effect */
+}
+
+/* Add responsive design for the images */
+.store-logo {
+    max-width: 80%; /* Limit the size of the logo within its container */
+    height: auto;
+    margin-bottom: 10px; /* Add some space below the logo */
+}
+
 .selected {
-    background-color: #ffcccb;
+    background-color: #ff6b6c;
 }
 .wsk-cp-product{
   background:#fff;
@@ -268,12 +338,3 @@ a.buy-btn{
   background: #FF9800;
   color: #fff;
 }
-
-
-/*.selected > .wsp-cp-product > .wsp-cp-text {
-    background-color: #ffcccb !important;
-}*/
-/*.fixed-size-image {
-    width: 600px;
-    height: 900px;
-}*/
