@@ -44,7 +44,7 @@
     <div class="container text-center" style="margin-top: 15px;">
         <div class="row">
             <div class="col-md-6">
-                <p th:text="'Hay ' + ${#lists.size(products)} + ' productos'"></p>
+                <p id="totalProducts"></p>
             </div>
             <div class="col-md-6">
                 <p id="selectedProductsText"></p>
@@ -89,7 +89,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Cierra la fila cada vez que hay 4 productos o es el último -->
                     <div th:if="${iterStat.index % 4 == 3 or iterStat.last}" class="clearfix"></div>
                 </th:block>
@@ -144,14 +143,14 @@
 
     function toggleSelectedProducts() {
         var showSelected = document.getElementById('filterSelectedCheckbox').checked;
-        var allProducts = document.querySelectorAll('.col-md-3'); // Assuming this is the container for each product
+        var allProducts = document.querySelectorAll('.col-md-3');
 
         allProducts.forEach(function (productDiv) {
             // If the checkbox is checked, hide all products that are not selected
             if (showSelected && !productDiv.classList.contains('selected')) {
                 productDiv.style.display = 'none';
             } else {
-                productDiv.style.display = 'block'; // or 'flex' if you are using flexbox
+                productDiv.style.display = 'block';
             }
         });
     }
@@ -258,7 +257,10 @@
         messagesDiv.style.display = 'none';
     }
 </script>
-<script>
+<script th:inline="javascript">
+    var totalProductsNumber =  /*[[${#lists.size(products)}]]*/;
+    document.getElementById('totalProducts').innerText = 'Hay ' + totalProductsNumber + ' productos';
+
     function filterProducts() {
         var searchInput = document.getElementById('searchInput').value.toLowerCase();
         var productContainers = document.getElementsByClassName('col-md-3');
@@ -273,6 +275,20 @@
                 container.style.display = 'none';  // Ocultar el contenedor si no coincide con la búsqueda
             }
         }
+        // Obtén todos los elementos con la clase "col-md-3 selected"
+        var totalProductsElements = document.querySelectorAll('.col-md-3');
+
+        // Filtra los elementos que no tienen display='none'
+        var visibleElements = Array.from(totalProductsElements).filter(function(element) {
+          return element.style.display !== 'none';
+        });
+
+        // Obtiene la longitud de los elementos visibles
+        totalProductsLength = visibleElements.length;
+
+        // Obtiene la cantidad de elementos encontrados
+        totalProductsNumber = totalProductsLength;
+        document.getElementById('totalProducts').innerText = 'Hay ' + totalProductsNumber + ' productos';
     }
 </script>
 </body>
